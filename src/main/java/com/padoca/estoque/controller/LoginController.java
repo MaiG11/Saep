@@ -27,7 +27,11 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String realizaProcessamentoLogin(@RequestParam String login, @RequestParam String senha, HttpSession sessao, Model model){
+    public String realizaProcessamentoLogin(
+        @RequestParam String login, 
+        @RequestParam String senha, 
+        HttpSession sessao, 
+        Model model){
 
     {
 
