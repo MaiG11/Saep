@@ -1,68 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos - Padoca Saep</title>
-
-</head>
-<body>
+<!doctype html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org/">
+  <head>
+    <title>Produtos - Padoca do Saep</title>
+  </head>
+  <body>
     <h1>Cadastro de Produtos</h1>
     <a href="/principal">Voltar a tela principal</a>
 
-        <form method="get" action="/produtos">
-            <input type="text" name="buscaProduto" th:value="${buscaProduto}" placeholder="Buscar produto..."/>
-            <button type="submit">Buscar</button>
-        </form>
-    
-        <br>
-        <br>
+    <form method="get" action="/produtos">
+      <input
+        type="text"
+        name="buscaProduto"
+        th:value="${buscaProduto}"
+        placeholder="Buscar produto..."
+      />
+      <button type="submit">Buscar Produtos</button>
+    </form>
 
     <table border="1">
-        <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Quantidade</th> 
-            <th>Estoque Mínimo</th>
-            <th>Categoria</th>
-        </tr>
-        <tr th:each="produto : ${produtos}">
-            <td th:text="${produto.nome}"></td>
-            <td th:text="${produto.descricao}"></td>
-            <td th:text="${produto.quantidade}"></td>
-            <td th:text="${produto.estoqueMinimo}"></td>
-            <td th:text="${produto.categoria}"></td>
-           <td>
-            <form th:action="@{/produtos/deletar/{id}(id=${produto.id})}"
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Quantidade</th>
+        <th>Estoque Mínimo</th>
+        <th>Categoria</th>
+        <th>Ações</th>
+      </tr>
+      <tr th:each="produto : ${produtos}">
+        <td th:text="${produto.nome}"></td>
+        <td th:text="${produto.descricao}"></td>
+        <td th:text="${produto.quantidade}"></td>
+        <td th:text="${produto.estoqueMinimo}"></td>
+        <td th:text="${produto.categoria}"></td>
+        <td>
+          <!-- ação de editar.. -->
+          <a th:href="@{/produtos/editar/{id}(id=${produto.id})}">Editar</a>
+
+          <!-- ação de excluir.. -->
+          <form
+            th:action="@{/produtos/deletar/{id}(id=${produto.id})}"
             method="post"
+          >
+            <button
+              type="submit"
+              onsubmit="return confirm('Deseja excluir esse produto?');"
             >
-          <button type="submit">Excluir</button> 
-            
-        </form>
-           </td>
-        </tr>
+              Excluir
+            </button>
+          </form>
+        </td>
+      </tr>
     </table>
 
-    <h2>Novo Produto</h2>
-    <form method="post" action="/produtos/salvar"> 
+    <h2>Novo Produto :)</h2>
+    <form method="post" action="/produtos/salvar" th:object="${produto}">
+      <label>Nome</label>
+      <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color: red;"></span>
+      <input type="text" th:field="*{nome}" /><br />
 
-        <label>Nome:</label>
-        <input type="text" name="nome"/><br>
+      <label>Descrição</label>
+      <input type="text" th:field="*{descricao}" /><br />
 
-        <label>Descrição:</label>
-        <input type="text" name="descricao"/><br>
+      <label>Quantidade</label>
+      <span th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}" style="color: red;"></span>
+      <input type="number" th:field="*{quantidade}" /><br />
 
-        <label>Quantidade:</label>
-        <input type="number" name="quantidade"/><br>
+      <label>Estoque Mínimo</label>
+      <span th:if="${#fields.hasErrors('estoqueMinimo')}" th:errors="*{estoqueMinimo}" style="color: red;"></span>
+      <input type="number" th:field="*{estoqueMinimo}" /><br />
 
-        <label>Estoque Mínimo:</label>
-        <input type="number" name="estoqueMinimo"/><br>
+      <label>Categoria</label>
+      <input type="text" th:field="*{categoria}" /><br />
 
-         <label>Categoria:</label>
-        <input type="text" name="categoria"/><br>
-
-        <button type="submit">Criar Produto</button>
+      <button type="submit">Criar Produto</button>
     </form>
-    
-</body>
+  </body>
 </html>

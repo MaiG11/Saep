@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org/">
+  <head>
+    <title>Editar Produto - Padoca do Saep</title>
+  </head>
+  <body>
+    <h1>Editar produto</h1>
+    <a href="/produtos">Volta a pagina principal</a>
+
+    <form method="post" action="/produtos/salvar" th:object="${produto}">
+      <input type="hidden" th:field="*{id}" />
+
+      <label>Nome</label>
+      <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color: red;"></span>
+      <input type="text" th:field="*{nome}" /><br />
+
+      <label>Descrição</label>
+      <input type="text" th:field="*{descricao}" /><br />
+
+      <label>Quantidade</label>
+      <span th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}" style="color: red;"></span>
+      <input type="number" th:field="*{quantidade}" /><br />
+
+      <label>Estoque Mínimo</label>
+      <span th:if="${#fields.hasErrors('estoqueMinimo')}" th:errors="*{estoqueMinimo}" style="color: red;"></span>
+      <input type="number" th:field="*{estoqueMinimo}" /><br />
+
+      <label>Categoria</label>
+      <input type="text" th:field="*{categoria}" /><br />
+
+      <button type="submit">Atualizar produto</button>
+    </form>
+  </body>
+</html>
