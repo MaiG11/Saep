@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="pt-br" xmlns:th="https://www.thymeleaf.org/">
   <head>
-    <title>Editar Produto - Padoca do Saep</title>
+    <title>Formulario de  Produto - Padoca do Saep</title>
   </head>
   <body>
-    <h1>Editar produto</h1>
+    <h1 th:text="${produto.id} ==null ? 'Novo produto' : 'Editar produto'"></h1>
     <a href="/produtos">Volta a pagina principal</a>
 
     <form method="post" action="/produtos/salvar" th:object="${produto}">
@@ -28,7 +28,7 @@
       <label>Categoria</label>
       <input type="text" th:field="*{categoria}" /><br />
 
-      <button type="submit">Atualizar produto</button>
+      <button type="submit">Salvar</button>
     </form>
   </body>
 </html>

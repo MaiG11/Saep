@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org/">
+<head>
+ 
+    
+    <title>Gestao do Estoque - Padoca Saep</title>
+</head>
+<body>
+    <h1>Gestão do Estoque</h1>
+    <a href="/principal">Voltar a página principal</a>
+
+    <!--alerta que esta sendo enviado do controller-->
+    <div th:if="${alerta}" style="color: red">
+        <p th:text="${alerta}"></p>
+    </div>
+
+    <form action="/estoque/salvar" method="post" th:object="${movimentacao}">
+
+    <!--Produto vindo da movimentação-->
+        <label>Produto</label>,
+        <select th:field="*{produto}">
+            <option value="">Selecione...</option>
+            <option th:each="prod: ${produtos}" 
+            th:value="${prod.id}" 
+            th:text="${prod.nome}"
+            ></option>
+       ></select>
+       <br/>
+
+       <!--Entrada e saída-->
+        <label>Tipo de movimentação</label>
+        <select th:field="*{tipo}">
+            <option value="">Selecione...</option>
+            <option value="ENTRADA">Entrada</option>
+            <option value="SAIDA">Saída</option>
+        </select>
+        <br/>
+        <!--Quantidade-->
+        <label>Quantidade</label>
+        <input type="number" th:field="*{quantidade}" min="1" max="1000"/>
+        <br/>
+
+        <!--Data da movimentação-->
+        <input type="date" th:field="*{data}"/>
+        <br/>
+
+        <button type="submit">Salvar</button>
+    </form>
+
+</body>
+</html>

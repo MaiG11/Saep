@@ -27,7 +27,15 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @GetMapping("/produtos/novo")
+    public String novoRegistro(HttpSession sessao, Model model){
+        if (sessao.getAttribute("funcionario") == null)
+            return "redirect:/login";
 
+        model.addAttribute("produto", new Produto());
+        //Vai abrir o mesmo formulário para edição /inclusão, mas sem os dados preenchidos, pois é um novo produto
+        return "produtos/formulario";
+    }
     @GetMapping("/produtos/editar/{id}")
     public String editarProduto(
         HttpSession sessao, @PathVariable Long id, Model model){
@@ -37,7 +45,7 @@ public class ProdutoController {
 
             Produto produto = produtoRepository.findById(id).orElseThrow();
             model.addAttribute("produto", produto);
-            return "produtos/editar";
+            return "produtos/formulario";
         }
     
     @GetMapping("/produtos")
@@ -73,7 +81,7 @@ public class ProdutoController {
         if (errosAcumulados.hasErrors()){
             model.addAttribute("produto", produto);
             model.addAttribute("produtos", produtoRepository.findAll());
-            return "produtos/editar";
+            return "produtos/formulario";
         }
         
         produtoRepository.save(produto);
